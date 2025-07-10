@@ -1,0 +1,16 @@
+Timestamp,User_ID,Age,Location,Q1_Rating,Q2_Feedback,Q3_Suggestions,Q4_Experience,Email
+2024-01-01,U001,25,NYC,4,The service was really good overall but could be faster,Maybe add more payment options,I had a great experience with the customer support team,user1@email.com
+2024-01-02,U002,30,LA,2,Very slow response times and unhelpful staff,Need better training for support staff,Frustrated with the long wait times,user2@email.com
+2024-01-03,U003,35,Chicago,5,Excellent service! Very satisfied with everything,Keep up the great work!,Outstanding experience from start to finish,user3@email.com
+2024-01-04,U004,28,Miami,3,Website is confusing and hard to navigate,Redesign the user interface to be more intuitive,The checkout process was particularly difficult,user4@email.com
+2024-01-05,U005,42,Seattle,1,Terrible customer service and overpriced products,Lower the prices and improve customer service,Worst experience I've ever had with any company,user5@email.com
+2024-01-06,U006,31,Boston,4,Good product quality but expensive,More competitive pricing would be nice,Happy with the product but not the price,user6@email.com
+2024-01-07,U007,29,Austin,3,The app crashes frequently and is buggy,Fix the technical issues with the mobile app,Need better quality control for software,user7@email.com
+2024-01-08,U008,26,Denver,5,Love the new features and clean design,Continue innovating and adding new features,The recent updates have been fantastic,user8@email.com
+2024-01-09,U009,33,Portland,2,Delivery was delayed and package was damaged,Improve packaging and shipping processes,Very disappointed with the delivery experience,user9@email.com
+2024-01-10,U010,37,Phoenix,4,Great customer support but limited product variety,Add more product options and categories,Support team is excellent but need more choices,user10@email.com
+2024-01-11,U011,24,Atlanta,1,Account got hacked and no help from support,Strengthen security measures and response time,Security breach caused major inconvenience,user11@email.com
+2024-01-12,U012,40,San Diego,5,Perfect experience - fast, reliable, and affordable,Nothing to improve - you're doing great!,Exactly what I was looking for,user12@email.com
+2024-01-13,U013,27,Orlando,3,Interface is outdated and not user-friendly,Modernize the design and improve usability,The old-fashioned look makes it hard to use,user13@email.com
+2024-01-14,U014,32,Vegas,2,Payment processing is slow and unreliable,Upgrade payment systems for better reliability,Multiple payment failures caused frustration,user14@email.com
+2024-01-15,U015,29,Nashville,4,Good service but communication could be better,Improve communication with customers,Would like more updates on order status,user15@email.com
