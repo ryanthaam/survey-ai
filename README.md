@@ -222,17 +222,16 @@ Summarize 800NPS in <5 mins!
 - Supabase project  
 - Install dependencies:
 
-```bash
 pip install -r requirements.txt
 
 git clone https://github.com/your-username/surveygpt-ai.git
 cd surveygpt-ai
 cp .env.example .env  # Fill in your environment variables
 streamlit run app.py
-<img src="screenshots/analysispage.png">
+## 🖼 UI Screenshots
 
-<img src="screenshots/analysisresults.png">
 
-<img src="screenshots/uploadpage.png">
-
-<img src="screenshots/userauth.png">
+![Analysis Page](screenshots/analysispage.png)
+![Analysis Results](screenshots/analysisresults.png)
+![Upload Page](screenshots/uploadpage.png)
+![User Auth](screenshots/userauth.png)
