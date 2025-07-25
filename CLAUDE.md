@@ -118,13 +118,28 @@ SUPABASE_KEY=your_supabase_anon_key_here
 - Session state management in Streamlit
 - Role-based access control ready
 
+### Advanced ML Capabilities (NEW!)
+- ✅ **Multi-Aspect Sentiment Analysis**: Granular sentiment across business aspects (customer service, product quality, pricing, etc.)
+- ✅ **Advanced Topic Modeling**: BERTopic implementation for automatic theme discovery
+- ✅ **Named Entity Recognition**: Brand, competitor, product, and location extraction
+- ✅ **Response Quality Scoring**: AI-powered quality assessment and spam detection
+- ✅ **Competitive Intelligence**: Automatic competitor detection and sentiment analysis
+- ✅ **Anomaly Detection**: Outlier and unusual response identification
+- ✅ **AI Chat Assistant**: Natural language querying of analysis results
+- ✅ **Interactive Advanced Dashboard**: Multi-tab analysis with real-time filtering
+- ✅ **Enhanced Export**: JSON data export, chat history, comprehensive reports
+
 ### Current Development Status
 - ✅ Complete Streamlit frontend with all PRD features
+- ✅ **ENHANCED**: Advanced ML pipeline with 6 specialized analysis modules
+- ✅ **ENHANCED**: Interactive dashboard with advanced visualizations
+- ✅ **NEW**: AI Chat Assistant for natural language data exploration
 - ✅ Full clustering and embedding implementations
 - ✅ GPT-4 summarization and sentiment analysis
 - ✅ PDF report generation
 - ✅ Supabase integration for auth and storage
 - ✅ FastAPI backend with comprehensive endpoints
-- ✅ Interactive visualizations and dashboards
+- ✅ **ENHANCED**: Professional UI/UX with dark mode and mobile responsiveness
 - ⚠️ Requires environment variables setup
 - ⚠️ Supabase database schema needs setup
+- ⚠️ **NEW**: Advanced ML features require additional dependencies (see requirements.txt)

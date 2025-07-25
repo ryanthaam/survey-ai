@@ -18,6 +18,9 @@ from utils.file_processor import FileProcessor
 from utils.survey_enhancer import SurveyDataEnhancer
 from utils.enhanced_extractor import EnhancedSurveyExtractor
 
+# AI Assistant import only (remove heavy ML imports for speed)
+from utils.ai_assistant import ChatWidget
+
 # Configure Streamlit page
 st.set_page_config(
     page_title="SurveyGPT-AI",
@@ -198,6 +201,8 @@ def get_survey_enhancer():
 @st.cache_resource
 def get_enhanced_extractor():
     return EnhancedSurveyExtractor()
+
+# Removed heavy ML services for faster loading
 
 def render_navigation():
     """Render the navigation bar"""
@@ -435,12 +440,234 @@ def main():
         st.session_state.analysis_results = None
     if 'page' not in st.session_state:
         st.session_state.page = 'home'
+    if 'night_mode' not in st.session_state:
+        st.session_state.night_mode = False
+
+    # Apply night mode CSS globally if enabled
+    if st.session_state.night_mode:
+        st.markdown("""
+        <style>
+            /* Main app background */
+            .stApp {
+                background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%) !important;
+                color: #ffffff !important;
+            }
+            
+            /* Main content area */
+            .main .block-container {
+                background-color: transparent !important;
+            }
+            
+            /* Headers and text */
+            .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp h6 {
+                color: #ffffff !important;
+            }
+            
+            .stMarkdown, .stText {
+                color: #e0e0e0 !important;
+            }
+            
+            /* Input elements */
+            .stSelectbox > div > div {
+                background-color: #2d2d2d !important;
+                color: #ffffff !important;
+                border: 1px solid #555 !important;
+            }
+            
+            .stTextInput > div > div > input {
+                background-color: #2d2d2d !important;
+                color: #ffffff !important;
+                border: 1px solid #555 !important;
+            }
+            
+            .stTextArea > div > div > textarea {
+                background-color: #2d2d2d !important;
+                color: #ffffff !important;
+                border: 1px solid #555 !important;
+            }
+            
+            .stNumberInput > div > div > input {
+                background-color: #2d2d2d !important;
+                color: #ffffff !important;
+                border: 1px solid #555 !important;
+            }
+            
+            .stSlider > div > div > div {
+                background-color: #2d2d2d !important;
+            }
+            
+            /* Buttons */
+            .stButton > button {
+                background-color: #3d3d3d !important;
+                color: #ffffff !important;
+                border: 1px solid #555 !important;
+            }
+            
+            .stButton > button:hover {
+                background-color: #4d4d4d !important;
+                border: 1px solid #777 !important;
+            }
+            
+            .stButton > button[kind="primary"] {
+                background-color: #4a90e2 !important;
+                color: #ffffff !important;
+                border: 1px solid #5a9ef2 !important;
+            }
+            
+            .stButton > button[kind="primary"]:hover {
+                background-color: #5a9ef2 !important;
+            }
+            
+            /* Expandable sections */
+            .streamlit-expanderHeader {
+                background-color: #2d2d2d !important;
+                color: #ffffff !important;
+                border: 1px solid #444 !important;
+            }
+            
+            .streamlit-expanderContent {
+                background-color: #1e1e1e !important;
+                border: 1px solid #444 !important;
+            }
+            
+            /* Metrics */
+            div[data-testid="metric-container"] {
+                background-color: #2d2d2d !important;
+                border: 1px solid #444 !important;
+                padding: 1rem !important;
+                border-radius: 0.5rem !important;
+            }
+            
+            div[data-testid="metric-container"] > div {
+                color: #ffffff !important;
+            }
+            
+            /* File uploader */
+            .stFileUploader > div {
+                background-color: #2d2d2d !important;
+                border: 2px dashed #555 !important;
+            }
+            
+            .stFileUploader label {
+                color: #ffffff !important;
+            }
+            
+            /* Sidebar */
+            .css-1d391kg {
+                background-color: #1a1a1a !important;
+            }
+            
+            .css-1d391kg .stMarkdown {
+                color: #ffffff !important;
+            }
+            
+            /* Data frames */
+            .stDataFrame {
+                background-color: #2d2d2d !important;
+            }
+            
+            .stDataFrame div {
+                background-color: #2d2d2d !important;
+                color: #ffffff !important;
+            }
+            
+            /* Alerts and messages */
+            .stAlert {
+                background-color: #2d2d2d !important;
+                border: 1px solid #444 !important;
+                color: #ffffff !important;
+            }
+            
+            .stSuccess {
+                background-color: #1a4d3a !important;
+                border: 1px solid #2d7a4d !important;
+            }
+            
+            .stError {
+                background-color: #4d1a1a !important;
+                border: 1px solid #7a2d2d !important;
+            }
+            
+            .stWarning {
+                background-color: #4d3a1a !important;
+                border: 1px solid #7a5d2d !important;
+            }
+            
+            .stInfo {
+                background-color: #1a3a4d !important;
+                border: 1px solid #2d5d7a !important;
+            }
+            
+            /* Progress bars */
+            .stProgress > div > div {
+                background-color: #4a90e2 !important;
+            }
+            
+            /* Tabs */
+            .stTabs [data-baseweb="tab-list"] {
+                background-color: #2d2d2d !important;
+            }
+            
+            .stTabs [data-baseweb="tab"] {
+                background-color: #2d2d2d !important;
+                color: #ffffff !important;
+            }
+            
+            .stTabs [aria-selected="true"] {
+                background-color: #4a90e2 !important;
+            }
+            
+            /* Custom cards */
+            .cluster-card {
+                background: #2d2d2d !important;
+                border: 1px solid #444 !important;
+                color: #ffffff !important;
+            }
+            
+            .cluster-title {
+                color: #ffffff !important;
+            }
+            
+            /* Navigation in dark mode */
+            .nav-bar {
+                background: rgba(45, 45, 45, 0.95) !important;
+                border-bottom: 1px solid rgba(85, 85, 85, 0.8) !important;
+            }
+            
+            .logo {
+                color: #ffffff !important;
+            }
+            
+            /* Plotly charts background */
+            .js-plotly-plot {
+                background-color: #2d2d2d !important;
+            }
+            
+            /* Feature cards on home page */
+            div[style*="background: #f8fafc"] {
+                background: #2d2d2d !important;
+                border: 1px solid #444 !important;
+            }
+            
+            /* Hero section text */
+            div[style*="color: #64748b"] {
+                color: #b0b0b0 !important;
+            }
+        </style>
+        """, unsafe_allow_html=True)
 
     # Render navigation
     render_navigation()
 
     # Handle authentication in sidebar
     with st.sidebar:
+        # Night mode toggle in sidebar
+        new_night_mode = st.checkbox("🌙 Night Mode", value=st.session_state.night_mode, key="sidebar_night_mode")
+        if new_night_mode != st.session_state.night_mode:
+            st.session_state.night_mode = new_night_mode
+            st.rerun()
+        
+        st.markdown("---")
         st.markdown("### 🔐 Authentication")
         
         if not st.session_state.authenticated:
@@ -601,17 +828,17 @@ def main():
                         with col1:
                             clustering_method = st.selectbox(
                                 "Clustering Method",
-                                ["K-Means", "UMAP + HDBSCAN"],
-                                help="Choose the clustering algorithm"
+                                ["K-Means"],
+                                help="K-Means clustering for fast, reliable results"
                             )
                         
                         with col2:
                             num_clusters = st.slider(
-                                "Number of Clusters (K-Means only)",
+                                "Number of Clusters",
                                 min_value=2,
                                 max_value=min(10, len(responses)//2),
                                 value=min(5, len(responses)//3),
-                                help="Only applies to K-Means clustering"
+                                help="Number of themes to identify in responses"
                             )
                         
                         # Analyze button
@@ -621,7 +848,7 @@ def main():
                                 clustering_service = get_clustering_service()
                                 summarizer_service = get_summarizer_service()
                                 
-                                # Set clustering method
+                                # Set clustering method (default to K-Means for speed)
                                 if clustering_method == "K-Means":
                                     clustering_service.method = "kmeans"
                                 else:
@@ -652,7 +879,7 @@ def main():
                                         'total_responses': len(responses)
                                     }
                                     
-                                    st.success("✅ Analysis complete!")
+                                    st.success("✅ Advanced analysis complete!")
                                     st.rerun()
                                     
                                 except Exception as e:
@@ -737,7 +964,7 @@ def main():
                         # Initialize services
                         clustering_service = get_clustering_service()
                         summarizer_service = get_summarizer_service()
-                        clustering_service.method = "umap_hdbscan"  # Use UMAP for auto-analysis
+                        clustering_service.method = "kmeans"  # Use K-Means for speed
                         
                         # Perform clustering
                         st.info("🔄 AI clustering in progress...")
@@ -775,115 +1002,171 @@ def main():
                     st.error(f"❌ Auto-analysis failed: {str(e)}")
                     st.info("💡 Try manual column selection instead.")
         
-        # Display results if available
+        # Display results with Advanced Dashboard and AI Assistant
         if st.session_state.analysis_results:
             results = st.session_state.analysis_results
             
             st.markdown("---")
-            st.markdown("## 📊 AI Analysis Results")
+            
+            # Analysis mode selector
+            st.markdown("## 🎛️ Analysis Dashboard")
             
             # Show analysis info
             if 'original_data_info' in results:
                 info = results['original_data_info']
                 if info.get('auto_analysis'):
-                    st.info("🤖 **Auto-Analysis**: AI automatically selected the best approach for your data")
+                    st.success("🤖 **Advanced Auto-Analysis**: AI automatically selected the best approach and ran comprehensive analysis")
                 else:
-                    st.info(f"📊 **Analysis**: Used column '{info.get('column_used', 'Unknown')}' with intelligent preprocessing")
+                    st.info(f"📊 **Advanced Analysis**: Enhanced ML analysis with intelligent preprocessing")
             
-            # Summary metrics
-            col1, col2, col3 = st.columns(3)
+            # Night mode and view selection
+            col1, col2 = st.columns([1, 2])
             
             with col1:
-                st.metric(
-                    "Total Responses",
-                    results['total_responses'],
-                    help="Total number of survey responses analyzed"
+                # Night mode toggle (synced with session state)
+                night_mode = st.checkbox("🌙 Night Mode", value=st.session_state.night_mode, key="analysis_night_mode")
+                if night_mode != st.session_state.night_mode:
+                    st.session_state.night_mode = night_mode
+                    st.rerun()
+                
+            with col2:
+                # Dashboard mode selection
+                dashboard_mode = st.selectbox(
+                    "📊 Choose Analysis View",
+                    ["📊 Classic View", "🤖 AI Assistant Chat"],
+                    help="Select how you want to explore your analysis results"
                 )
+            
+            
+            if dashboard_mode == "🤖 AI Assistant Chat":
+                # Full AI Assistant Interface
+                from utils.ai_assistant import AIAnalysisAssistant
+                ai_assistant = AIAnalysisAssistant()
+                ai_assistant.render_chat_interface(results)
+            
+            else:  # Classic View
+                # Classic Results Display (simplified version of original)
+                st.markdown("### 📊 Analysis Summary")
+                
+                # Summary metrics
+                col1, col2, col3 = st.columns(3)
+                
+                with col1:
+                    st.metric(
+                        "Total Responses",
+                        results['total_responses'],
+                        help="Total number of survey responses analyzed"
+                    )
+                
+                with col2:
+                    num_clusters = len([c for c in results['clusters'].keys() if c != -1])
+                    st.metric(
+                        "Clusters Found",
+                        num_clusters,
+                        help="Number of distinct themes identified"
+                    )
+                
+                with col3:
+                    avg_cluster_size = sum(len(texts) for cluster_id, texts in results['clusters'].items() if cluster_id != -1) / num_clusters if num_clusters > 0 else 0
+                    st.metric(
+                        "Avg Cluster Size",
+                        f"{avg_cluster_size:.1f}",
+                        help="Average number of responses per cluster"
+                    )
+                
+                # Cluster details
+                st.markdown("### 🎯 Cluster Analysis")
+                
+                for cluster_id, cluster_texts in results['clusters'].items():
+                    if cluster_id == -1:  # Skip noise cluster
+                        continue
+                        
+                    with st.expander(f"📂 Cluster {cluster_id + 1} ({len(cluster_texts)} responses)", expanded=False):
+                        col1, col2 = st.columns([2, 1])
+                        
+                        with col1:
+                            st.markdown("**Summary:**")
+                            st.write(results['summaries'].get(cluster_id, "No summary available"))
+                            
+                            st.markdown("**Sample Responses:**")
+                            for i, text in enumerate(cluster_texts[:3], 1):
+                                st.write(f"{i}. {text}")
+                            
+                            if len(cluster_texts) > 3:
+                                st.write(f"... and {len(cluster_texts) - 3} more responses")
+                        
+                        with col2:
+                            sentiment_data = results['sentiments'].get(cluster_id, {})
+                            sentiment = sentiment_data.get('sentiment', 'neutral')
+                            confidence = sentiment_data.get('confidence', 0)
+                            
+                            # Sentiment badge
+                            if sentiment == 'positive':
+                                st.success(f"😊 {sentiment.title()}")
+                            elif sentiment == 'negative':
+                                st.error(f"😞 {sentiment.title()}")
+                            else:
+                                st.info(f"😐 {sentiment.title()}")
+                            
+                            st.metric("Confidence", f"{confidence:.2f}")
+                            st.metric("Responses", len(cluster_texts))
+            
+            # Export and Actions (always available)
+            st.markdown("---")
+            st.markdown("### 🛠️ Actions & Export")
+            
+            col1, col2, col3, col4 = st.columns(4)
+            
+            with col1:
+                if st.button("📥 Download PDF Report", use_container_width=True):
+                    try:
+                        pdf_generator = get_pdf_generator()
+                        pdf_path = pdf_generator.generate_report(
+                            results['clusters'],
+                            results['summaries'],
+                            results['sentiments']
+                        )
+                        
+                        with open(pdf_path, "rb") as pdf_file:
+                            st.download_button(
+                                label="📥 Download PDF Report",
+                                data=pdf_file.read(),
+                                file_name="survey_analysis_report.pdf",
+                                mime="application/pdf",
+                                use_container_width=True
+                            )
+                        
+                        # Cleanup temp file
+                        os.unlink(pdf_path)
+                        
+                    except Exception as e:
+                        st.error(f"❌ Error generating PDF: {str(e)}")
             
             with col2:
-                num_clusters = len([c for c in results['clusters'].keys() if c != -1])
-                st.metric(
-                    "Clusters Found",
-                    num_clusters,
-                    help="Number of distinct themes identified"
-                )
+                if st.button("📊 Export Data (JSON)", use_container_width=True):
+                    import json
+                    export_data = {
+                        'analysis_results': results,
+                        'export_timestamp': pd.Timestamp.now().isoformat()
+                    }
+                    json_data = json.dumps(export_data, indent=2, default=str)
+                    st.download_button(
+                        "Download Analysis Data",
+                        json_data,
+                        file_name="survey_analysis_data.json",
+                        mime="application/json"
+                    )
             
             with col3:
-                avg_cluster_size = sum(len(texts) for cluster_id, texts in results['clusters'].items() if cluster_id != -1) / num_clusters if num_clusters > 0 else 0
-                st.metric(
-                    "Avg Cluster Size",
-                    f"{avg_cluster_size:.1f}",
-                    help="Average number of responses per cluster"
-                )
+                if st.button("📈 Advanced Insights", use_container_width=True):
+                    st.session_state.show_advanced_insights = True
+                    st.rerun()
             
-            # Cluster details
-            st.markdown("### 🎯 Cluster Analysis")
-            
-            for cluster_id, cluster_texts in results['clusters'].items():
-                if cluster_id == -1:  # Skip noise cluster
-                    continue
-                    
-                with st.expander(f"📂 Cluster {cluster_id + 1} ({len(cluster_texts)} responses)", expanded=True):
-                    col1, col2 = st.columns([2, 1])
-                    
-                    with col1:
-                        st.markdown("**Summary:**")
-                        st.write(results['summaries'].get(cluster_id, "No summary available"))
-                        
-                        st.markdown("**Sample Responses:**")
-                        for i, text in enumerate(cluster_texts[:5], 1):
-                            st.write(f"{i}. {text}")
-                        
-                        if len(cluster_texts) > 5:
-                            st.write(f"... and {len(cluster_texts) - 5} more responses")
-                    
-                    with col2:
-                        sentiment_data = results['sentiments'].get(cluster_id, {})
-                        sentiment = sentiment_data.get('sentiment', 'neutral')
-                        confidence = sentiment_data.get('confidence', 0)
-                        
-                        # Sentiment badge
-                        if sentiment == 'positive':
-                            st.success(f"😊 {sentiment.title()}")
-                        elif sentiment == 'negative':
-                            st.error(f"😞 {sentiment.title()}")
-                        else:
-                            st.info(f"😐 {sentiment.title()}")
-                        
-                        st.metric("Confidence", f"{confidence:.2f}")
-                        st.metric("Responses", len(cluster_texts))
-            
-            # PDF Export
-            st.markdown("### 📄 Export Results")
-            
-            if st.button("📥 Download PDF Report", use_container_width=True):
-                try:
-                    pdf_generator = get_pdf_generator()
-                    pdf_path = pdf_generator.generate_report(
-                        results['clusters'],
-                        results['summaries'],
-                        results['sentiments']
-                    )
-                    
-                    with open(pdf_path, "rb") as pdf_file:
-                        st.download_button(
-                            label="📥 Download PDF Report",
-                            data=pdf_file.read(),
-                            file_name="survey_analysis_report.pdf",
-                            mime="application/pdf",
-                            use_container_width=True
-                        )
-                    
-                    # Cleanup temp file
-                    os.unlink(pdf_path)
-                    
-                except Exception as e:
-                    st.error(f"❌ Error generating PDF: {str(e)}")
-            
-            # Clear results
-            if st.button("🔄 Start New Analysis", use_container_width=True):
-                st.session_state.analysis_results = None
-                st.rerun()
+            with col4:
+                if st.button("🔄 Start New Analysis", use_container_width=True):
+                    st.session_state.analysis_results = None
+                    st.session_state.show_advanced_insights = False
+                    st.rerun()
 
 if __name__ == "__main__":
     main()
